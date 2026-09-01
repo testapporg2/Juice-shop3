@@ -181,10 +181,14 @@ restoreOverwrittenFilesWithOriginals().then(() => {
   app.use(cors())
 
   /* Security middleware */
+  app.disable('x-powered-by')
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    res.removeHeader('X-Powered-By')
+    next()
+  })
   app.use(helmet.noSniff())
   app.use(helmet.frameguard())
   // app.use(helmet.xssFilter()); // = no protection from persisted XSS via RESTful API
-  app.disable('x-powered-by')
   app.use(featurePolicy({
     features: {
       payment: ["'self'"]
