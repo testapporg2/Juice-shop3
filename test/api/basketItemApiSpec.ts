@@ -7,6 +7,12 @@ import * as frisby from 'frisby'
 import { expect } from '@jest/globals'
 import config from 'config'
 
+const loginPassword = process.env.TEST_LOGIN_PASSWORD
+
+if (loginPassword == null || loginPassword.trim() === '') {
+  throw new Error('TEST_LOGIN_PASSWORD must be provided via environment variable for authentication tests.')
+}
+
 const API_URL = 'http://localhost:3000/api'
 const REST_URL = 'http://localhost:3000/rest'
 
@@ -18,7 +24,7 @@ beforeAll(() => {
     headers: jsonHeader,
     body: {
       email: 'jim@' + config.get<string>('application.domain'),
-      password: 'ncc-1701'
+      password: loginPassword
     }
   })
     .expect('status', 200)
