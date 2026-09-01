@@ -11,15 +11,24 @@ import fs from 'node:fs'
 
 const jsonHeader = { 'content-type': 'application/json' }
 const REST_URL = 'http://localhost:3000/rest'
+const bjoernLogin = {
+  email: 'bjoern.kimminich@gmail.com',
+  password: config.get<string>('testCredentials.bjoern.password')
+}
+const amyLogin = {
+  email: 'amy@' + config.get<string>('application.domain'),
+  password: config.get<string>('testCredentials.amy.password')
+}
+const jimLogin = {
+  email: 'jim@' + config.get<string>('application.domain'),
+  password: config.get<string>('testCredentials.jim.password')
+}
 
 describe('/rest/user/data-export', () => {
   it('Export data without use of CAPTCHA', () => {
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'bjoern.kimminich@gmail.com',
-        password: 'bW9jLmxpYW1nQGhjaW5pbW1pay5ucmVvamI='
-      }
+      body: bjoernLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
@@ -43,10 +52,7 @@ describe('/rest/user/data-export', () => {
   it('Export data when CAPTCHA requested need right answer', () => {
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'bjoern.kimminich@gmail.com',
-        password: 'bW9jLmxpYW1nQGhjaW5pbW1pay5ucmVvamI='
-      }
+      body: bjoernLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
@@ -72,10 +78,7 @@ describe('/rest/user/data-export', () => {
   it('Export data using right answer to CAPTCHA', () => {
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'bjoern.kimminich@gmail.com',
-        password: 'bW9jLmxpYW1nQGhjaW5pbW1pay5ucmVvamI='
-      }
+      body: bjoernLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
@@ -107,10 +110,7 @@ describe('/rest/user/data-export', () => {
   it('Export data including orders without use of CAPTCHA', () => {
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'amy@' + config.get<string>('application.domain'),
-        password: 'K1f.....................'
-      }
+      body: amyLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
@@ -147,10 +147,7 @@ describe('/rest/user/data-export', () => {
   it('Export data including reviews without use of CAPTCHA', () => {
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'jim@' + config.get<string>('application.domain'),
-        password: 'ncc-1701'
-      }
+      body: jimLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
@@ -189,10 +186,7 @@ describe('/rest/user/data-export', () => {
 
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'jim@' + config.get<string>('application.domain'),
-        password: 'ncc-1701'
-      }
+      body: jimLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
@@ -229,10 +223,7 @@ describe('/rest/user/data-export', () => {
   it('Export data including orders with use of CAPTCHA', () => {
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'amy@' + config.get<string>('application.domain'),
-        password: 'K1f.....................'
-      }
+      body: amyLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
@@ -277,10 +268,7 @@ describe('/rest/user/data-export', () => {
   it('Export data including reviews with use of CAPTCHA', () => {
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'jim@' + config.get<string>('application.domain'),
-        password: 'ncc-1701'
-      }
+      body: jimLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
@@ -327,10 +315,7 @@ describe('/rest/user/data-export', () => {
 
     return frisby.post(REST_URL + '/user/login', {
       headers: jsonHeader,
-      body: {
-        email: 'jim@' + config.get<string>('application.domain'),
-        password: 'ncc-1701'
-      }
+      body: jimLogin
     })
       .expect('status', 200)
       .then(({ json: jsonLogin }) => {
